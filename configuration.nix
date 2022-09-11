@@ -54,7 +54,7 @@
   ###services.tailscale.enable = true;
   networking.firewall.checkReversePath = "loose";
 
-  #services.xserver.wacom.enable = true;
+  ###services.xserver.wacom.enable = true;
 
   i18n.defaultLocale = "en_US.UTF-8";
   console = {
@@ -139,9 +139,22 @@
     users.jt = {
       # all the configuration for your user goes in here! for example, you can
       # add things to home.packages here to add them to your user packages:
-      # home.packages = with pkgs; [ ... ];
+      home.packages = with pkgs; [
+        google-chrome
+        discord
+        alacritty
+        taskwarrior
+        steam
+      ];
 
       home.stateVersion = "22.05";
+
+      programs.bash = {
+        # enable bash, including allowing other things (like direnv) to hook into zsh
+        enable = true;
+        # if you have a bashrc, your per-user bashrc config should go in the other options in here
+        # the home-manager documentation has many examples, i can link if you want
+      };
 
       programs.zsh = {
         # enable zsh, including allowing other things (like direnv) to hook into zsh
@@ -155,6 +168,26 @@
         enable = true;
         # enable nix plugin for direnv
         nix-direnv.enable = true;
+      };
+
+      programs.alacritty = {
+        enable = true;
+      };
+
+      programs.i3 = {
+        enable = true;
+      };
+
+      programs.vim = {
+        enable = true;
+      };
+
+      programs.taskwarrior = {
+        enable = true;
+      };
+
+      programs.git = {
+        enable = true;
       };
     };
   };
