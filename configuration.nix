@@ -129,6 +129,7 @@
     xclip
     xdotool #(simulate kb/mouse inputs and manage other x stuff: https://github.com/jordansissel/xdotool)
     xorg.xwininfo #(command to display window info from terminal)
+    compiz
   ];
 
   home-manager = {
