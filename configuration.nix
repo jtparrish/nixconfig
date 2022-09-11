@@ -172,8 +172,8 @@
   services.xserver = {
     enable = true;
     displayManager.lightdm.enable = true;
+    displayManager.defaultSession = "xfce";
     desktopManager = {
-      default = "xfce";
       xterm.enable = false;
       xfce = {
         enable = true;
