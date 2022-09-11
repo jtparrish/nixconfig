@@ -97,6 +97,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    zsh
     ###audacity
     ###bitwarden #(pw manager)
     cargo
@@ -104,7 +105,7 @@
     rustfmt
     curl
     direnv
-    discord
+    ###discord
     ffmpeg
     ###firefox
     gcc
