@@ -140,6 +140,8 @@
       # add things to home.packages here to add them to your user packages:
       # home.packages = with pkgs; [ ... ];
 
+      home.stateVersion = "22.05";
+
       programs.zsh = {
         # enable zsh, including allowing other things (like direnv) to hook into zsh
         enable = true;
