@@ -129,7 +129,6 @@
     xclip
     xdotool #(simulate kb/mouse inputs and manage other x stuff: https://github.com/jordansissel/xdotool)
     xorg.xwininfo #(command to display window info from terminal)
-    compiz
   ];
 
   home-manager = {
@@ -175,9 +174,9 @@
         enable = true;
       };
 
-      programs.i3 = {
-        enable = true;
-      };
+      ###programs.i3 = {
+      ###  enable = true;
+      ###};
 
       programs.vim = {
         enable = true;
@@ -202,6 +201,7 @@
     openssh.enable = true;
     printing.enable = true;
     fwupd.enable = true;
+    picom.enable = true;
   };
 
   services.xserver = {
