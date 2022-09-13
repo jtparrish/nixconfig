@@ -13,6 +13,7 @@
     hostName = "ouroboros";
     networkmanager.enable = true;
     useDHCP = false;
+    dhcpcd.enable = false;
     interfaces = {
       ###enp2s0.useDHCP = true;
       wlp166s0.useDHCP = true;
@@ -86,10 +87,14 @@
     trackpoint.enable = true;
   };
 
+  programs.zsh.enable = true;
+  environment.shells = with pkgs; [ zsh ];
+
   users = {
     mutableUsers = true;
 
     users.jt = {
+      shell = pkgs.zsh;
       isNormalUser = true;
       initialPassword = "setup";
       extraGroups = [ "wheel" ];
@@ -129,6 +134,7 @@
     xclip
     xdotool #(simulate kb/mouse inputs and manage other x stuff: https://github.com/jordansissel/xdotool)
     xorg.xwininfo #(command to display window info from terminal)
+    xorg.xdpyinfo #(command to show display info)
   ];
 
   home-manager = {
@@ -140,6 +146,9 @@
       # all the configuration for your user goes in here! for example, you can
       # add things to home.packages here to add them to your user packages:
       home.packages = with pkgs; [
+        oh-my-zsh
+        zsh-powerlevel10k
+	htop
         google-chrome
         discord
         alacritty
@@ -161,6 +170,27 @@
         enable = true;
         # if you have a zshrc, your per-user zshrc config should go in the other options in here
         # the home-manager documentation has many examples, i can link if you want
+        oh-my-zsh = {
+          enable = true;
+          # fallback theme if powerlevel10k is not found
+          theme = "robbyrussell";
+          plugins = [ "git" ];
+        };
+
+        plugins = [
+          # use the powerlevel10k theme
+          {
+            name = "powerlevel10k";
+            src = pkgs.zsh-powerlevel10k;
+            file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+          }
+          # use the powerlevel10k plugin
+          {
+            name = "powerlevel10k-config";
+            src = pkgs.lib.cleanSource ./p10k-config;
+            file = "p10k.zsh";
+          }
+        ];
       };
 
       programs.direnv = {
@@ -174,10 +204,6 @@
         enable = true;
       };
 
-      ###programs.i3 = {
-      ###  enable = true;
-      ###};
-
       programs.vim = {
         enable = true;
       };
@@ -189,6 +215,8 @@
       programs.git = {
         enable = true;
       };
+
+      xsession.windowManager.i3 = (import ./modules/i3.nix pkgs);
     };
   };
 
@@ -201,13 +229,17 @@
     openssh.enable = true;
     printing.enable = true;
     fwupd.enable = true;
-    picom.enable = true;
+    picom = {
+      enable = true;
+      backend = "glx";
+      vSync = true;
+    };
   };
 
   services.xserver = {
     enable = true;
     displayManager.lightdm.enable = true;
-    displayManager.defaultSession = "xfce";
+    displayManager.defaultSession = "xfce+i3";
     desktopManager = {
       xterm.enable = false;
       xfce = {
@@ -219,6 +251,8 @@
     windowManager.i3.enable = true;
     windowManager.i3.package = pkgs.i3-gaps;
 
+    dpi = 144;
+
     layout = "us";
     libinput = {
       enable = true;
@@ -228,7 +262,11 @@
 
   fonts.fonts = with pkgs; [
     # fonts here!
+    nerdfonts
+    meslo-lgs-nf
   ];
+
+  hardware.video.hidpi.enable = true;
 
   system.stateVersion = "22.05";
 }
