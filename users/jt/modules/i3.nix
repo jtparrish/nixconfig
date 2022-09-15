@@ -66,8 +66,8 @@ in with pkgs.lib; {
       # i3-dmenu-desktop activation
       "${mod}+Shift+d" =  "exec --no-startup-id i3-dmenu-desktop";
 
-      # take screenshot
-      "Print" =  "exec --no-startup-id flameshot gui";
+      ### # take screenshot
+      ### "Print" =  "exec --no-startup-id flameshot gui";
 
       # change focus
       "${mod}+${left}" =  "focus left";
