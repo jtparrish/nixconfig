@@ -57,14 +57,14 @@ in with pkgs.lib; {
       "${mod}+Shift+q" = "kill";
 
       # start dmenu (a program launcher)
-      "${mod}+d" = "exec --no-startup-id dmenu_run";
+      "${mod}+d" = "exec --no-startup-id dmenu_run -i -fn 'Inconsolata Nerd Font-17'";
       # A more modern dmenu replacement is rofi:
       # bindsym ${mod}+d exec "rofi -modi drun,run -show drun"
       # There also is i3-dmenu-desktop which only displays applications shipping a
       # .desktop file. It is a wrapper around dmenu, so you need that installed.
       # bindsym ${mod}+d exec --no-startup-id i3-dmenu-desktop
       # i3-dmenu-desktop activation
-      "${mod}+Shift+d" =  "exec --no-startup-id i3-dmenu-desktop";
+      "${mod}+Shift+d" = "exec --no-startup-id i3-dmenu-desktop --dmenu=\"dmenu_run -i -fn 'Inconsolata Nerd Font-17'\"";
 
       ### # take screenshot
       ### "Print" =  "exec --no-startup-id flameshot gui";
