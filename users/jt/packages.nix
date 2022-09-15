@@ -13,4 +13,5 @@ with pkgs; [
   slack
   spotify
   zotero
+  thunderbird
 ]

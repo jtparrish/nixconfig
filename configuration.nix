@@ -19,7 +19,7 @@
       wlp166s0.useDHCP = true;
     };
     firewall = {
-      allowedTCPPorts = [ 631 ];
+      allowedTCPPorts = [ 631 993 587 ];
       allowedUDPPorts = [ 631 ];
     };
     nameservers = [ "8.8.8.8" ];
