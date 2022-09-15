@@ -9,4 +9,8 @@ with pkgs; [
   alacritty
   taskwarrior
   steam
+  teams
+  slack
+  spotify
+  zotero
 ]
