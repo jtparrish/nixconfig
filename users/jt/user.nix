@@ -14,6 +14,25 @@ pkgs:
     # the home-manager documentation has many examples, i can link if you want
   };
 
+  home.file = {
+    # use the powerlevel10k theme
+    oh-my-zsh-custom-powerline = {
+      source = "${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k";
+      target = ".config/oh-my-zsh/themes/powerlevel10k";
+    };
+
+    # use the nix-shell plugin
+    oh-my-zsh-custom-nix-shell = {
+      source = pkgs.fetchFromGitHub {
+        owner = "chisui";
+        repo = "zsh-nix-shell";
+        rev = "v0.5.0";
+        sha256 = "0za4aiwwrlawnia4f29msk822rj9bgcygw6a8a6iikiwzjjz0g91";
+      };
+      target = ".config/oh-my-zsh/plugins/nix-shell";
+    };
+  };
+
   programs.zsh = {
     # enable zsh, including allowing other things (like direnv) to hook into zsh
     enable = true;
@@ -22,17 +41,11 @@ pkgs:
     oh-my-zsh = {
       enable = true;
       # fallback theme if powerlevel10k is not found
-      theme = "robbyrussell";
-      plugins = [ "git" ];
+      theme = "powerlevel10k/powerlevel10k";
+      plugins = [ "git" "nix-shell" ];
     };
 
     plugins = [
-      # use the powerlevel10k theme
-      {
-        name = "powerlevel10k";
-        src = pkgs.zsh-powerlevel10k;
-        file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
-      }
       # use the powerlevel10k plugin
       {
         name = "powerlevel10k-config";
@@ -40,6 +53,10 @@ pkgs:
         file = "p10k.zsh";
       }
     ];
+
+    localVariables = {
+      ZSH_CUSTOM = "$HOME/.config/oh-my-zsh";
+    };
   };
 
   programs.direnv = {
