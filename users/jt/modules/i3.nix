@@ -21,9 +21,14 @@ in with pkgs.lib; {
     # use Mouse+${mod} to drag floating windows to their wanted position
     floating.modifier = "${mod}";
 
+    floating.criteria = [ { class = "sfml"; } ];
+
     # Remove Window Borders
     window.border = 0;
     window.titlebar = false;
+
+    # Default Workspace
+    defaultWorkspace = "workspace number 1";
   
     fonts = {
       names = [ "pango:monospace" ];
@@ -57,14 +62,14 @@ in with pkgs.lib; {
       "${mod}+Shift+q" = "kill";
 
       # start dmenu (a program launcher)
-      "${mod}+d" = "exec --no-startup-id dmenu_run -i -fn 'Inconsolata Nerd Font-17'";
+      "${mod}+d" = "exec --no-startup-id dmenu_run -i -fn 'Inconsolata Nerd Font-12'";
       # A more modern dmenu replacement is rofi:
       # bindsym ${mod}+d exec "rofi -modi drun,run -show drun"
       # There also is i3-dmenu-desktop which only displays applications shipping a
       # .desktop file. It is a wrapper around dmenu, so you need that installed.
       # bindsym ${mod}+d exec --no-startup-id i3-dmenu-desktop
       # i3-dmenu-desktop activation
-      "${mod}+Shift+d" = "exec --no-startup-id i3-dmenu-desktop --dmenu=\"dmenu_run -i -fn 'Inconsolata Nerd Font-17'\"";
+      "${mod}+Shift+d" = "exec --no-startup-id i3-dmenu-desktop --dmenu=\"dmenu_run -i -fn 'Inconsolata Nerd Font-12'\"";
 
       ### # take screenshot
       ### "Print" =  "exec --no-startup-id flameshot gui";
@@ -82,10 +87,10 @@ in with pkgs.lib; {
       "${mod}+Right" = "focus right";
 
       # move focused window
-      "${mod}+Shift+$left" = "move left";
-      "${mod}+Shift+$down" = "move down";
-      "${mod}+Shift+$up" = "move up";
-      "${mod}+Shift+$right" = "move right";
+      "${mod}+Shift+${left}" = "move left";
+      "${mod}+Shift+${down}" = "move down";
+      "${mod}+Shift+${up}" = "move up";
+      "${mod}+Shift+${right}" = "move right";
 
       # alternatively, you can use the cursor keys:
       "${mod}+Shift+Left" = "move left";

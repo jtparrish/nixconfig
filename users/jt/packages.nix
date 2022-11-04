@@ -14,4 +14,11 @@ with pkgs; [
   spotify
   zotero
   thunderbird
+  libreoffice
+  playerctl
+  redshift
+  geoclue2
+  gsettings-desktop-schemas # allows changing gnome app settings
+  evince
+  blueberry
 ]
