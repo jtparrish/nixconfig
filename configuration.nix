@@ -7,6 +7,10 @@
       efi.canTouchEfiVariables = true;
     };
     cleanTmpDir = true;
+    # fix kernel to 5.15 till 6 gets fixed
+    ###kernelPackages = pkgs.linuxPackages_5_15;
+    # turn off periodic screen refresh
+    kernelParams = [ "i915.enable_psr=0" ];
   };
 
   networking = {
@@ -36,7 +40,10 @@
       experimental-features = [ "nix-command" "flakes" "ca-derivations" ];
       keep-outputs = true;
       keep-derivations = true;
-      trusted-users = [ "root" ];
+      trusted-users = [ "root" "jt" ];
+      # cachix stuff
+      substituters = [ "https://nprindle.cachix.org" ];
+      trusted-public-keys = [ "nprindle.cachix.org-1:hRW0f/n4hCZZzTzYJO9olDjJ+8MB4VpknEGpiVCxpWo=" ];
     };
 
     gc = {
@@ -135,6 +142,7 @@
     xdotool #(simulate kb/mouse inputs and manage other x stuff: https://github.com/jordansissel/xdotool)
     xorg.xwininfo #(command to display window info from terminal)
     xorg.xdpyinfo #(command to show display info)
+    cachix #for nix caches and such
   ];
 
   home-manager = {

@@ -15,13 +15,12 @@ let
   ws = [ "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" ];
 in with pkgs.lib; {
   enable = true;
+  #extraConfig = "for_window [all] border pixel";
   config = {
     modifier = mod;
 
     # use Mouse+${mod} to drag floating windows to their wanted position
     floating.modifier = "${mod}";
-
-    floating.criteria = [ { class = "sfml"; } ];
 
     # Remove Window Borders
     window.border = 0;

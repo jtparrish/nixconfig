@@ -18,7 +18,6 @@ with pkgs; [
   playerctl
   redshift
   geoclue2
-  gsettings-desktop-schemas # allows changing gnome app settings
   evince
   blueberry
 ]

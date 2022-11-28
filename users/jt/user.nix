@@ -105,6 +105,14 @@ pkgs:
     userEmail = "jtparrish@outlook.com";
   };
 
+  gtk = {
+    enable = true;
+    theme = {
+      name = "Catppuccin-Purple-Dark";
+      package = pkgs.catppuccin-gtk;
+    };
+  };
+
   services.redshift = {
     enable = true;
     provider = "geoclue2";
