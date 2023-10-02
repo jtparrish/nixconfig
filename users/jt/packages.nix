@@ -4,12 +4,13 @@ with pkgs; [
   oh-my-zsh
   zsh-powerlevel10k
   htop
-  google-chrome
+  clang
+  clang-tools
+  firefox
   discord
   alacritty
   taskwarrior
   steam
-  teams
   slack
   spotify
   zotero
@@ -20,4 +21,8 @@ with pkgs; [
   geoclue2
   evince
   blueberry
+  rust-analyzer
+  wine
+  helix
+  texlab
 ]

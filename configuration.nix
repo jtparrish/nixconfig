@@ -6,11 +6,11 @@
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
-    cleanTmpDir = true;
-    # fix kernel to 5.15 till 6 gets fixed
-    ###kernelPackages = pkgs.linuxPackages_5_15;
+    tmp.cleanOnBoot = true;
     # turn off periodic screen refresh
-    kernelParams = [ "i915.enable_psr=0" ];
+    kernelParams = [ "i915.enable_psr=1" "module_blacklist=hid_sensor_hub" ];
+    ###kernelParams = [ "module_blacklist=hid_sensor_hub" ];
+    kernelPackages = pkgs.linuxPackages;
   };
 
   networking = {
@@ -23,7 +23,7 @@
       wlp166s0.useDHCP = true;
     };
     firewall = {
-      allowedTCPPorts = [ 631 993 587 ];
+      allowedTCPPorts = [ 631 ];
       allowedUDPPorts = [ 631 ];
     };
     nameservers = [ "8.8.8.8" ];
@@ -42,13 +42,15 @@
       keep-derivations = true;
       trusted-users = [ "root" "jt" ];
       # cachix stuff
-      substituters = [ "https://nprindle.cachix.org" ];
-      trusted-public-keys = [ "nprindle.cachix.org-1:hRW0f/n4hCZZzTzYJO9olDjJ+8MB4VpknEGpiVCxpWo=" ];
+      ###substituters = [ "https://nprindle.cachix.org" ];
+      ###trusted-public-keys = [ "nprindle.cachix.org-1:hRW0f/n4hCZZzTzYJO9olDjJ+8MB4VpknEGpiVCxpWo=" ];
     };
 
     gc = {
-      automatic = true;
-      dates = "weekly";
+      ###automatic = true;
+      ###dates = "weekly";
+      # no automatic gc
+      automatic = false;
     };
 
     ###settings.trusted-users = [ "root" ];
@@ -76,11 +78,12 @@
       enable = true;
       package = pkgs.pulseaudioFull;
       support32Bit = true;
+      extraConfig = "load-module module-echo-cancel";
     };
 
     bluetooth = {
       enable = true;
-      package = pkgs.bluezFull;
+      package = pkgs.bluez;
     };
 
     opengl = {
@@ -104,6 +107,7 @@
       shell = pkgs.zsh;
       isNormalUser = true;
       initialPassword = "setup";
+      #extraGroups = [ "wheel" "vboxusers" ];
       extraGroups = [ "wheel" ];
     };
   };
@@ -143,6 +147,7 @@
     xorg.xwininfo #(command to display window info from terminal)
     xorg.xdpyinfo #(command to show display info)
     cachix #for nix caches and such
+    feh # for setting background
   ];
 
   home-manager = {
@@ -172,7 +177,16 @@
   services.xserver = {
     enable = true;
     displayManager.lightdm.enable = true;
+    displayManager.lightdm.background = ./ldm-image;
+    displayManager.lightdm.greeters.gtk = {
+      enable = true;
+      theme = {
+        name = "Catppuccin-Frappe-Standard-Blue-Dark";
+        package = pkgs.catppuccin-gtk;
+      };
+    };
     displayManager.defaultSession = "xfce+i3";
+    displayManager.sessionCommands = "~/.fehbg";
     desktopManager = {
       xterm.enable = false;
       xfce = {
@@ -180,6 +194,8 @@
         noDesktop = true;
         enableXfwm = false;
       };
+      # should autoset wallpaper to ~/.background-image but doesn't appear to work
+      wallpaper.mode = "scale";
     };
     windowManager.i3.enable = true;
     windowManager.i3.package = pkgs.i3-gaps;
@@ -193,13 +209,15 @@
     };
   };
 
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
     # fonts here!
     nerdfonts
     meslo-lgs-nf
   ];
 
-  hardware.video.hidpi.enable = true;
+  ###hardware.video.hidpi.enable = true;
+
+  ###virtualisation.virtualbox.host.enable = true;
 
   system.stateVersion = "22.05";
 }

@@ -57,6 +57,10 @@ pkgs:
     localVariables = {
       ZSH_CUSTOM = "$HOME/.config/oh-my-zsh";
     };
+    initExtra = ''
+      # something in oh-my-zsh is turning this on
+      unsetopt autopushd
+    '';
   };
 
   programs.direnv = {
@@ -75,6 +79,10 @@ pkgs:
     plugins = [
       pkgs.vimPlugins.vim-sleuth
       pkgs.vimPlugins.markdown-preview-nvim
+      #pkgs.vimPlugins.YouCompleteMe
+      pkgs.vimPlugins.LanguageClient-neovim
+      pkgs.vimPlugins.vim-mucomplete
+      pkgs.vimPlugins.vimtex
     ];
     settings = {
       number = true;
@@ -92,7 +100,29 @@ pkgs:
           set shiftwidth=4
           let g:_has_set_default_indent_settings = 1
       endif
+
+      " LanguageClient settings
+      let g:LanguageClient_serverCommands = {
+          \ 'cpp': ['clangd'],
+          \ 'rust': ['rust-analyzer'],
+      \ }
+      " set this so that the highlight gets cleared on write for rust
+      autocmd BufWritePre *.rs call clearmatches()
+
+      " MUComplete Settings
+      set completeopt+=menuone
+      set completeopt+=noselect
+      """  set completeopt+=noinsert
+      set shortmess+=c  " Shut off completion messages
+      let g:mucomplete#enable_auto_at_startup = 1
       '';
+  };
+
+  programs.helix = {
+    enable = true;
+    settings = {
+      theme = "catppuccin_frappe";
+    };
   };
 
   programs.taskwarrior = {
@@ -105,10 +135,19 @@ pkgs:
     userEmail = "jtparrish@outlook.com";
   };
 
+  programs.ssh = {
+    enable = true;
+    extraConfig = 
+      ''
+      Host *
+        SetEnv TERM=xterm-256color
+      '';
+  };
+
   gtk = {
     enable = true;
     theme = {
-      name = "Catppuccin-Purple-Dark";
+      name = "Catppuccin-Frappe-Standard-Blue-Dark";
       package = pkgs.catppuccin-gtk;
     };
   };

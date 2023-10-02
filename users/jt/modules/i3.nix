@@ -25,6 +25,7 @@ in with pkgs.lib; {
     # Remove Window Borders
     window.border = 0;
     window.titlebar = false;
+    floating.border = 0;
 
     # Default Workspace
     defaultWorkspace = "workspace number 1";
@@ -61,7 +62,7 @@ in with pkgs.lib; {
       "${mod}+Shift+q" = "kill";
 
       # start dmenu (a program launcher)
-      "${mod}+d" = "exec --no-startup-id dmenu_run -i -fn 'Inconsolata Nerd Font-12'";
+      "${mod}+d" = "exec --no-startup-id dmenu_run -i -fn 'MesloLGS Nerd Font-10'";
       # A more modern dmenu replacement is rofi:
       # bindsym ${mod}+d exec "rofi -modi drun,run -show drun"
       # There also is i3-dmenu-desktop which only displays applications shipping a
