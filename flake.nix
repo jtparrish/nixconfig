@@ -18,7 +18,7 @@
             common-pc-laptop
             common-pc-laptop-ssd
             common-cpu-intel
-            framework
+            framework-12th-gen-intel
             {
               services.fwupd.enable = true;
             }

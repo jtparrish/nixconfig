@@ -72,23 +72,22 @@
     keyMap = "us";
   };
 
-  sound.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.support32Bit = true;
+  };
+
   hardware = {
-    pulseaudio = {
-      enable = true;
-      package = pkgs.pulseaudioFull;
-      support32Bit = true;
-      extraConfig = "load-module module-echo-cancel";
-    };
 
     bluetooth = {
       enable = true;
       package = pkgs.bluez;
     };
 
-    opengl = {
+
+    graphics = {
       enable = true;
-      driSupport32Bit = true;
+      enable32Bit = true;
       extraPackages32 = with pkgs.pkgsi686Linux; [
         libva
       ];
@@ -160,6 +159,7 @@
 
   programs.gnupg.agent = {
     enable = true;
+    pinentryPackage = null;
     enableSSHSupport = true;
   };
 
@@ -176,17 +176,18 @@
 
   services.xserver = {
     enable = true;
-    displayManager.lightdm.enable = true;
-    displayManager.lightdm.background = ./ldm-image;
-    displayManager.lightdm.greeters.gtk = {
-      enable = true;
-      theme = {
-        name = "Catppuccin-Frappe-Standard-Blue-Dark";
-        package = pkgs.catppuccin-gtk;
+    displayManager = {
+      lightdm.enable = true;
+      lightdm.background = ./ldm-image;
+      lightdm.greeters.gtk = {
+        enable = true;
+        theme = {
+          name = "Catppuccin-Frappe-Standard-Blue-Dark";
+          package = pkgs.catppuccin-gtk;
+        };
       };
+      sessionCommands = "~/.fehbg";
     };
-    displayManager.defaultSession = "xfce+i3";
-    displayManager.sessionCommands = "~/.fehbg";
     desktopManager = {
       xterm.enable = false;
       xfce = {
@@ -202,11 +203,15 @@
 
     dpi = 144;
 
-    layout = "us";
-    libinput = {
-      enable = true;
-      touchpad.naturalScrolling = true;
-    };
+    xkb.layout = "us";
+  };
+
+  services.displayManager.defaultSession = "xfce+i3";
+
+
+  services.libinput = {
+    enable = true;
+    touchpad.naturalScrolling = true;
   };
 
   fonts.packages = with pkgs; [

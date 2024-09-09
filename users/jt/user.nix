@@ -31,6 +31,19 @@ pkgs:
       };
       target = ".config/oh-my-zsh/plugins/nix-shell";
     };
+
+    catppuccin-frappe-alacritty-theme = let
+      catppuccin-alacritty-themes-dir = pkgs.fetchFromGitHub {
+        owner = "catppuccin";
+        repo = "alacritty";
+        rev = "343cf8d";
+        sha256 = "5MUWHXs8vfl2/u6YXB4krT5aLutVssPBr+DiuOdMAto=";
+      };
+      in
+      {
+        source = "${catppuccin-alacritty-themes-dir}/catppuccin-frappe.toml";
+        target = ".config/alacritty/catppuccin-frappe.toml";
+      };
   };
 
   programs.zsh = {
@@ -72,6 +85,18 @@ pkgs:
 
   programs.alacritty = {
     enable = true;
+    settings = {
+      import = ["~/.config/alacritty/catppuccin-frappe.toml"];
+      font.normal.family = "MesloLGS NF";
+      keyboard.bindings = [
+        {
+          # remap C-[ to escape
+          key = "[";
+          mods = "Control";
+          chars = "\\u001b";
+        }
+      ];
+    };
   };
 
   programs.vim = {
@@ -127,6 +152,7 @@ pkgs:
 
   programs.taskwarrior = {
     enable = true;
+    package = pkgs.taskwarrior3;
   };
 
   programs.git = {

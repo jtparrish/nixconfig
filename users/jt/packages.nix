@@ -9,7 +9,7 @@ with pkgs; [
   firefox
   discord
   alacritty
-  taskwarrior
+  taskwarrior3
   steam
   slack
   spotify
@@ -25,4 +25,6 @@ with pkgs; [
   wine
   helix
   texlab
+  zellij
+  nil
 ]
