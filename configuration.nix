@@ -57,8 +57,10 @@
   };
   nixpkgs.config.allowUnfree = true;
 
-  time.timeZone = "America/New_York";
+  #time.timeZone = "US/Eastern";
+  # see https://github.com/NixOS/nixpkgs/issues/321121#issuecomment-2513991370
   location.provider = "geoclue2";
+  services.geoclue2.geoProviderUrl = "https://api.beacondb.net/v1/geolocate";
   services.localtimed.enable = true;
 
   ###services.tailscale.enable = true;
@@ -147,6 +149,12 @@
     xorg.xdpyinfo #(command to show display info)
     cachix #for nix caches and such
     feh # for setting background
+    kmonad # allow keyboard customization
+    ### icons used through xfce4 ###
+    papirus-icon-theme
+    arc-icon-theme
+    dracula-icon-theme
+    ###-###
   ];
 
   home-manager = {
@@ -195,7 +203,9 @@
         noDesktop = true;
         enableXfwm = false;
       };
-      # should autoset wallpaper to ~/.background-image but doesn't appear to work
+      # NOTE: wallpaper is autoset to ~/.background-image but doesn't trigger if
+      ## it doesn't exist. This is good because we want ~/.fehbg to select the wallpaper
+      ## randomly from a directory
       wallpaper.mode = "scale";
     };
     windowManager.i3.enable = true;
@@ -204,6 +214,8 @@
     dpi = 144;
 
     xkb.layout = "us";
+    # use the right-alt key as a compose key
+    xkb.options = "compose:ralt";
   };
 
   services.displayManager.defaultSession = "xfce+i3";
@@ -216,9 +228,12 @@
 
   fonts.packages = with pkgs; [
     # fonts here!
-    nerdfonts
     meslo-lgs-nf
-  ];
+  ]
+  # error: nerdfonts has been separated into individual font packages under the namespace nerd-fonts.
+  ## for all fonts
+  ##   fonts.packages = [ ... ] ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts)
+  ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
 
   ###hardware.video.hidpi.enable = true;
 

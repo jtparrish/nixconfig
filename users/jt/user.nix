@@ -46,6 +46,12 @@ pkgs:
       };
   };
 
+  # doesn't work unless you let home-manager manage the xsession
+  ## which screws over xfce
+  #home.keyboard.options = [
+  #  "compose:ralt"
+  #];
+
   programs.zsh = {
     # enable zsh, including allowing other things (like direnv) to hook into zsh
     enable = true;
@@ -70,7 +76,7 @@ pkgs:
     localVariables = {
       ZSH_CUSTOM = "$HOME/.config/oh-my-zsh";
     };
-    initExtra = ''
+    initContent = ''
       # something in oh-my-zsh is turning this on
       unsetopt autopushd
     '';
@@ -86,7 +92,7 @@ pkgs:
   programs.alacritty = {
     enable = true;
     settings = {
-      import = ["~/.config/alacritty/catppuccin-frappe.toml"];
+      general.import = ["~/.config/alacritty/catppuccin-frappe.toml"];
       font.normal.family = "MesloLGS NF";
       keyboard.bindings = [
         {
@@ -188,5 +194,17 @@ pkgs:
     tray = true;
   };
 
+ #services.kmonad = {
+ # enable = true;
+ #   keyboards = {
+ #     myKMonadOutput = {
+ #       device = "/dev/input/by-id/my-keyboard-kbd";
+ #       config = builtins.readFile ~/path/to/my/config.kbd;
+ #     };
+ #   };
+ #};
+
+  # required to enable kb options
+  #xsession.enable = true;
   xsession.windowManager.i3 = (import ./modules/i3.nix pkgs);
 }
